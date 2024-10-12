@@ -50,7 +50,7 @@ MonoBehaviour:
   type: 2
   MaxLife: 10
   damage: 1
-  speed: 2
+  speed: 3
   timeBtwShoot: 1.5
   BulletSpeed: 2
   ExtraDamage: 1

@@ -82,8 +82,8 @@ MonoBehaviour:
   damage: 1
   speed: 2
   timeBtwShoot: 1.5
-  BulletSpeed: 2
-  ExtraDamage: 1
+  BulletSpeed: 7
+  ExtraDamage: 3
   ExtraSpeed: 1
   scorePoints: 1
   range: 4

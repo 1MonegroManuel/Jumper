@@ -28,7 +28,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8542717935849206514}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9140808858200257483
 GameObject:
@@ -58,7 +58,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8542717935849206514}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5742091157936391460
 PrefabInstance:
@@ -341,17 +341,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4124687921292142927, guid: 0536e7795ebcbbd428143d00d616b2dc, type: 3}
   m_PrefabInstance: {fileID: 5742091157936391460}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7859251963361986714 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2495466405836508606, guid: 0536e7795ebcbbd428143d00d616b2dc, type: 3}
-  m_PrefabInstance: {fileID: 5742091157936391460}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5879875555720233092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,11 +353,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a412352cc2cf8439c29cee90f85e76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxLife: 50
+  MaxLife: 250
   damage: 2
   speed: 1.5
   timeBtwShoot: 2
-  BulletSpeed: 3
+  BulletSpeed: 4
   ExtraDamage: 1
   ExtraSpeed: 1
   range: 5
@@ -379,7 +368,6 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8245047248661450957, guid: 9b8009b524f68444089c594afaf94ce6, type: 3}
   explosionEffect: {fileID: 6667962299009397029, guid: aa6e3c71498c7ee40883f4bd67e29bdf, type: 3}
   powerUpPrefabs: []
-  LifeBar: {fileID: 7859251963361986714}
   currentPhase: 0
   oscillationFrequency: 2
   oscillationAmplitude: 3

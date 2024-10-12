@@ -79,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   MaxLife: 10
-  damage: 1
+  damage: 2
   speed: 2
   timeBtwShoot: 1.5
   BulletSpeed: 2

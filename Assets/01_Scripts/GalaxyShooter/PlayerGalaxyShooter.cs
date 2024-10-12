@@ -107,7 +107,7 @@ public class PlayerGalaxyShooter : MonoBehaviour
         
         if (life <= 0)
         {
-            //Destroy(gameObject);
+            Destroy(gameObject);
             SceneManager.LoadScene("Game");
         }
     }
