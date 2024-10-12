@@ -68,8 +68,7 @@ public class BossGalaxyShooter : MonoBehaviour
         if (life <= 0)
         {
             Destroy(gameObject);
-            string holi = "Farm";
-            SceneManager.LoadScene(holi);
+            Instantiate(powerUpPrefabs[0], transform.position, transform.rotation);
         }
     }
 

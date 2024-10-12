@@ -361,13 +361,14 @@ MonoBehaviour:
   ExtraDamage: 1
   ExtraSpeed: 1
   range: 5
-  dropChance: 50
+  dropChance: 100
   firePoint1: {fileID: 8542717936362826859}
   firePoint2: {fileID: 8194908522701242315}
   firePoint3: {fileID: 1984113794300695869}
-  bulletPrefab: {fileID: 8245047248661450957, guid: 9b8009b524f68444089c594afaf94ce6, type: 3}
+  bulletPrefab: {fileID: 6585807292748547074, guid: ee410b067ac20f84d887c526c2e0fb16, type: 3}
   explosionEffect: {fileID: 6667962299009397029, guid: aa6e3c71498c7ee40883f4bd67e29bdf, type: 3}
-  powerUpPrefabs: []
+  powerUpPrefabs:
+  - {fileID: 8460823861595521176, guid: b6c474fe3f088c643a671c49b51574d6, type: 3}
   currentPhase: 0
   oscillationFrequency: 2
   oscillationAmplitude: 3

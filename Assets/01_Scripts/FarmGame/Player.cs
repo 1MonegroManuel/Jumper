@@ -108,6 +108,8 @@ public class Player : MonoBehaviour
         }
     }
 
+
+
     void Die()
     {
         Debug.Log("¡El jugador ha muerto!");

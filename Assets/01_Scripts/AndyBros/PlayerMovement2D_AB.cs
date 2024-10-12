@@ -78,11 +78,18 @@ public class PlayerMovement2D_AB : MonoBehaviour
     // Detectar colisión con la capa de la meta (GoalLayer)
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((goalLayer.value & (1 << collision.gameObject.layer)) > 0)
+        if (collision.gameObject.CompareTag("Goal"))
         {
             Debug.Log("Player touched the goal!");  // Agregar línea para depuración
             string holi = "GalaxyShooter";
             SceneManager.LoadScene(holi);
         }
+
+        if (collision.gameObject.CompareTag("dead"))
+        {
+            Die();
+        }
+
     }
+
 }
