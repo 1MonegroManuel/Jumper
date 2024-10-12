@@ -123,8 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!1 &228842434
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,7 +223,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
->>>>>>> Stashed changes
 --- !u!1 &519730049
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,10 +235,7 @@ GameObject:
   - component: {fileID: 519730050}
   - component: {fileID: 519730053}
   - component: {fileID: 519730052}
-<<<<<<< Updated upstream
-=======
   - component: {fileID: 519730054}
->>>>>>> Stashed changes
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -337,11 +331,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-<<<<<<< Updated upstream
-  m_Constraints: 0
-=======
   m_Constraints: 4
->>>>>>> Stashed changes
 --- !u!114 &519730053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,27 +346,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 519730052}
   speed: 3
-<<<<<<< Updated upstream
-  bulletSpeed: 2
-=======
   bulletSpeed: 5
->>>>>>> Stashed changes
   bulletPrefab: {fileID: 331124737120509019, guid: 3028a78c5ce242846a3470400be9a5bb, type: 3}
   shootPoint: {fileID: 1975610337}
   timeBtwShoot: 1.5
   health: 10
-<<<<<<< Updated upstream
-  lifeBar: {fileID: 0}
-=======
   lifeBar: {fileID: 1705423103}
->>>>>>> Stashed changes
   deathParticlesPrefab: {fileID: 5046199612777878559, guid: e166c653ff56f324691ffebb2c719092, type: 3}
   deathDelay: 1.3
   mainSpriteRenderer: {fileID: 1000034003}
   deathSpriteRenderer: {fileID: 2131944591}
   animator: {fileID: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!61 &519730054
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -403,7 +383,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
->>>>>>> Stashed changes
 --- !u!1 &674026087
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,8 +466,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!1 &912918235
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,7 +532,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
->>>>>>> Stashed changes
 --- !u!1 &1000034000
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,8 +718,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!1 &1644038052
 GameObject:
   m_ObjectHideFlags: 0
@@ -820,7 +794,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1644038052}
   m_CullTransparentMesh: 1
->>>>>>> Stashed changes
 --- !u!1 &1660007550
 GameObject:
   m_ObjectHideFlags: 0
@@ -851,8 +824,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!1 &1705423101
 GameObject:
   m_ObjectHideFlags: 0
@@ -928,7 +899,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1705423101}
   m_CullTransparentMesh: 1
->>>>>>> Stashed changes
 --- !u!1 &1805619497
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,15 +931,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5111513461148373451, guid: 5c3b66e422bae03468338f152979d107, type: 3}
   spawnPoint: {fileID: 1660007552}
-<<<<<<< Updated upstream
-  spawnRadius: 15
-  numberOfEnemies: 5
-  spawnInterval: 2
-=======
   spawnRadius: 20
   numberOfEnemies: 8
   spawnInterval: 1
->>>>>>> Stashed changes
 --- !u!212 &1805619499
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1121,11 +1085,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-<<<<<<< Updated upstream
-  m_SortingOrder: 1
-=======
   m_SortingOrder: 0
->>>>>>> Stashed changes
   m_Sprite: {fileID: -7155470968044413937, guid: 6552af3febef2b04c94a4cad50d77d90, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
