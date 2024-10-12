@@ -75,7 +75,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   timeToDestroy: 4
+<<<<<<< Updated upstream
   damage: 1
+=======
+  damage: 3
+>>>>>>> Stashed changes
 --- !u!50 &6494992021261237320
 Rigidbody2D:
   serializedVersion: 4

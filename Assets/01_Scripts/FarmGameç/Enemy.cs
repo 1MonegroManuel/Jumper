@@ -35,9 +35,17 @@ public class Enemy : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
             // Aplica daño al jugador
+<<<<<<< Updated upstream
             Player playerScript = collision.collider.GetComponent<Player>();
             if (playerScript != null)
             {
+=======
+            
+            Player playerScript = collision.collider.GetComponent<Player>();
+            if (playerScript != null)
+            {
+                Debug.Log("Todo al personaje");
+>>>>>>> Stashed changes
                 playerScript.TakeDamage(damageToPlayer);
             }
             Destroy(gameObject); 

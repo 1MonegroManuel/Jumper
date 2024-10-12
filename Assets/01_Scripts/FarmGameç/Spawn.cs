@@ -7,7 +7,11 @@ public class Spawn : MonoBehaviour
     public GameObject enemyPrefab;    // Prefab del enemigo
     public Transform spawnPoint;      // Punto central de generación
     public float spawnRadius = 15f;   // Radio de generación
+<<<<<<< Updated upstream
     public int numberOfEnemies = 5;   // Número total de enemigos a generar
+=======
+    public int numberOfEnemies = 14;   // Número total de enemigos a generar
+>>>>>>> Stashed changes
     public float spawnInterval = 2f;  // Intervalo de generación en segundos
 
     private float timer;              // Temporizador para controlar el intervalo
