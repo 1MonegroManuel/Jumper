@@ -14,9 +14,9 @@ public class PlayerMovement2D_AB : MonoBehaviour
     public LayerMask goalLayer;
 
     // Objeto vacío que contiene los sprites del personaje
-    public Transform bodyTransform; // Asigna aquí el Empty que contiene los sprites del cuerpo
+    public Transform bodyTransform;
 
-    private bool isFacingRight = true; // Controla hacia dónde está mirando el personaje
+    private bool isFacingRight = true;
 
     void Start()
     {
@@ -28,10 +28,10 @@ public class PlayerMovement2D_AB : MonoBehaviour
         float moveInput = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
-        // Detectar si el jugador está tocando el suelo usando un raycast hacia abajo
+        // Detectar si el jugador está tocando el suelo
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
 
-        // Detectar colisiones con paredes usando un raycast hacia la dirección del movimiento
+        // Detectar colisiones con paredes
         isTouchingWall = Physics2D.Raycast(transform.position, Vector2.right * Mathf.Sign(moveInput), 0.6f, wallLayer);
 
         // Si el jugador está tocando una pared y no está en el suelo, resbala hacia abajo
@@ -50,15 +50,6 @@ public class PlayerMovement2D_AB : MonoBehaviour
             Flip();
         }
 
-        // Detectar colisión con el Goal usando un raycast hacia adelante
-        RaycastHit2D hitGoal = Physics2D.Raycast(transform.position, Vector2.right * Mathf.Sign(moveInput), 0.6f, goalLayer);
-
-        // Si se detecta el Goal, cambiar a la WinScene
-        if (hitGoal.collider != null)
-        {
-            SceneManager.LoadScene("WinScene");
-        }
-
         // Saltar si el player está en el suelo
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
@@ -66,46 +57,21 @@ public class PlayerMovement2D_AB : MonoBehaviour
         }
     }
 
-    // Detectar colisiones físicas con enemigos
-    void OnCollisionEnter2D(Collision2D collision)
+    // Método que mata al jugador
+    public void Die()
     {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            // Si el jugador está cayendo sobre el enemigo, lo destruye
-            if (rb.velocity.y < 0)
-            {
-                Destroy(collision.gameObject);
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce / 2); // Rebote del jugador (estética)
-            }
-            else
-            {
-                // Si el enemigo toca al jugador desde el lado o arriba, reinicia el juego
-                RestartGame();
-            }
-        }
-    }
-
-    // Reiniciar el juego cargando la misma escena
-    void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // Aquí puedes añadir efectos de muerte o sonidos si es necesario
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);  // Reiniciar la escena
     }
 
     // Girar el personaje
     void Flip()
     {
-        isFacingRight = !isFacingRight; // Cambiar la dirección del personaje
+        isFacingRight = !isFacingRight;
 
         // Girar el cuerpo (el objeto vacío que contiene todos los sprites)
         Vector3 scale = bodyTransform.localScale;
-        scale.x *= -1; // Invertir el eje X para girar el cuerpo
+        scale.x *= -1;
         bodyTransform.localScale = scale;
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * 0.54f);
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.right * Mathf.Sign(transform.localScale.x) * 0.6f);
     }
 }

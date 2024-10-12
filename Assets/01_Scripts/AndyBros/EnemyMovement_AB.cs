@@ -6,9 +6,11 @@ public class EnemyMovement_AB : MonoBehaviour
     public float moveSpeed = 2f;
     private Rigidbody2D rb;
     private bool movingRight = false;
-    public LayerMask wallLayer;  // Capa de las paredes para detectar colisiones
+    public LayerMask wallLayer;
     private bool isActive = false;
-    public List<SpriteRenderer> enemyRenderers = new List<SpriteRenderer>(); // Lista de SpriteRenderers
+    public List<SpriteRenderer> enemyRenderers = new List<SpriteRenderer>();
+
+    public float enemyHeight = 0.5f;  // Altura del enemigo
 
     void Start()
     {
@@ -18,7 +20,7 @@ public class EnemyMovement_AB : MonoBehaviour
         SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
         foreach (SpriteRenderer sr in renderers)
         {
-            enemyRenderers.Add(sr); // Añadir cada SpriteRenderer a la lista
+            enemyRenderers.Add(sr);
         }
     }
 
@@ -38,15 +40,6 @@ public class EnemyMovement_AB : MonoBehaviour
         if (isActive)
         {
             rb.velocity = new Vector2(moveSpeed * (movingRight ? 1 : -1), rb.velocity.y);
-
-            // Usar raycast para detectar colisiones con paredes
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, movingRight ? Vector2.right : Vector2.left, 0.5f, wallLayer);
-
-            if (hit)
-            {
-                // Cambiar de dirección si el raycast detecta una pared
-                movingRight = !movingRight;
-            }
         }
         else
         {
@@ -55,13 +48,41 @@ public class EnemyMovement_AB : MonoBehaviour
         }
     }
 
-    // Detectar colisiones físicas con otros enemigos
+    // Detectar colisiones con paredes o enemigos
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            // Cambiar de dirección si choca con una pared
+            movingRight = !movingRight;
+        }
+        else if (collision.gameObject.CompareTag("Enemy"))
         {
             // Cambiar de dirección si colisiona con otro enemigo
             movingRight = !movingRight;
+        }
+        else if (collision.gameObject.CompareTag("Player"))
+        {
+            Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
+
+            if (playerRb != null)
+            {
+                // Verificar si el jugador está cayendo y está por encima del enemigo
+                bool playerIsFalling = playerRb.velocity.y < 0;
+                bool playerAboveEnemy = playerRb.transform.position.y > transform.position.y + enemyHeight;
+
+                // Si el jugador está cayendo y está por encima del enemigo, destruir el enemigo
+                if (playerIsFalling && playerAboveEnemy)
+                {
+                    Destroy(gameObject);  // Destruir al enemigo
+                    playerRb.velocity = new Vector2(playerRb.velocity.x, 5f); // Rebote del jugador
+                }
+                else
+                {
+                    // Si el jugador no está cayendo desde arriba, el jugador muere
+                    collision.gameObject.GetComponent<PlayerMovement2D_AB>().Die();  // Método que mata al jugador
+                }
+            }
         }
     }
 
