@@ -12,22 +12,18 @@ public class Player : MonoBehaviour
     public GameObject bulletPrefab;  // Prefab de la bala
     public Transform shootPoint;      // Punto de disparo
     public float timeBtwShoot = 1.5f;
-    public float health = 10f;         // Salud máxima
-    public Image lifeBar;
+
     public GameObject deathParticlesPrefab; // Prefab de partículas para la muerte
     public float deathDelay = 1.3f;
     public SpriteRenderer mainSpriteRenderer;
     public SpriteRenderer deathSpriteRenderer;
-    public Animator animator; // Referencia al Animator
 
-    private float maxHealth;
     private float shootTimer = 0.5f;
     private bool isFacingRight = true; // Para controlar la dirección del sprite
 
     void Start()
     {
-        maxHealth = health;
-        UpdateLifeBar();
+
     }
 
     void Update()
@@ -38,13 +34,7 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
-        health -= amount;
-        UpdateLifeBar();
-
-        if (health <= 0)
-        {
-            Die();
-        }
+        GameManager.ReduceHealth((int)amount);
     }
 
     void Movement()
@@ -62,13 +52,6 @@ public class Player : MonoBehaviour
         else if (x < 0 && isFacingRight)
         {
             Flip();
-        }
-
-        // Activar o desactivar la animación de "Walking"
-        if (animator != null)
-        {
-            bool isMoving = movement.magnitude > 0.1f;
-            animator.SetBool("IsWalking", isMoving);
         }
     }
 
@@ -100,15 +83,6 @@ public class Player : MonoBehaviour
             }
         }
     }
-    void UpdateLifeBar()
-    {
-        if (lifeBar != null)
-        {
-            lifeBar.fillAmount = health / maxHealth;
-        }
-    }
-
-
 
     void Die()
     {

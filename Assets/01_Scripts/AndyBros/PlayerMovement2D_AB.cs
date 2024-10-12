@@ -13,9 +13,7 @@ public class PlayerMovement2D_AB : MonoBehaviour
     public LayerMask enemyLayer;
     public LayerMask goalLayer;
 
-    // Objeto vacío que contiene los sprites del personaje
     public Transform bodyTransform;
-
     private bool isFacingRight = true;
 
     void Start()
@@ -28,19 +26,14 @@ public class PlayerMovement2D_AB : MonoBehaviour
         float moveInput = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
-        // Detectar si el jugador está tocando el suelo
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
-
-        // Detectar colisiones con paredes
         isTouchingWall = Physics2D.Raycast(transform.position, Vector2.right * Mathf.Sign(moveInput), 0.6f, wallLayer);
 
-        // Si el jugador está tocando una pared y no está en el suelo, resbala hacia abajo
         if (isTouchingWall && !isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, -2f);
         }
 
-        // Girar al jugador cuando cambie de dirección
         if (moveInput > 0 && !isFacingRight)
         {
             Flip();
@@ -50,46 +43,35 @@ public class PlayerMovement2D_AB : MonoBehaviour
             Flip();
         }
 
-        // Saltar si el player está en el suelo
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.velocity = Vector2.up * jumpForce;
         }
-
     }
 
-    // Método que mata al jugador
     public void Die()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);  // Reiniciar la escena
+        GameManager.ReduceHealth(40); 
     }
 
-    // Girar el personaje
     void Flip()
     {
         isFacingRight = !isFacingRight;
-
-        // Girar el cuerpo (el objeto vacío que contiene todos los sprites)
         Vector3 scale = bodyTransform.localScale;
         scale.x *= -1;
         bodyTransform.localScale = scale;
     }
 
-    // Detectar colisión con la capa de la meta (GoalLayer)
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Goal"))
         {
-            Debug.Log("Player touched the goal!");  // Agregar línea para depuración
-            string holi = "GalaxyShooter";
-            SceneManager.LoadScene(holi);
+            Debug.Log("Player touched the goal!");
+            SceneManager.LoadScene("Farm");
         }
-
-        if (collision.gameObject.CompareTag("dead"))
+        else if (collision.gameObject.CompareTag("dead"))
         {
             Die();
         }
-
     }
-
 }

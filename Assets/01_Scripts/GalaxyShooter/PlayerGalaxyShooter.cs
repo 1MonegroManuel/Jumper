@@ -5,8 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class PlayerGalaxyShooter : MonoBehaviour
 {
-    public float MaxLife;
-    float life = 3;
     public float speed = 2f;
     public float ExtraSpeed = 0f;
     public float timeBtwShoot = 1.5f;
@@ -24,15 +22,10 @@ public class PlayerGalaxyShooter : MonoBehaviour
     public Rigidbody2D rb;
     public Transform firePoint;
     public BulletGalaxyShooter bulletPrefab;
-    public Text lifeText;
-    public Image lifeBar;
     void Start()
     {
         Debug.Log("Inició el juego");
         currentBullets = bullets;
-        life = MaxLife;
-        lifeBar.fillAmount = life / MaxLife;
-        lifeText.text = "Life = " + life;
     }
 
     void Update()
@@ -92,25 +85,9 @@ public class PlayerGalaxyShooter : MonoBehaviour
 
     public void TakeDamage(float dmg)
     {
-        if (shield && timer2 < 6)
-        {
-            timer2 += Time.deltaTime;
-        }
-        else
-        {
-            timer2 = 0;
-            shield = false;
-            life -= dmg;
-            lifeBar.fillAmount = life / MaxLife;
-            lifeText.text = "Life = " + life;
-        }
-        
-        if (life <= 0)
-        {
-            Destroy(gameObject);
-            SceneManager.LoadScene("Game");
-        }
+        GameManager.ReduceHealth((int)dmg);
     }
+
 
     void CheckIfShoot()
     {

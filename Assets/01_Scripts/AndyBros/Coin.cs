@@ -8,8 +8,11 @@ public class Coin : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Sumar el valor de la moneda al puntaje
-            GameManager.instance.AddCoins(coinValue);
+            // Sumar el valor de la moneda al puntaje directamente desde GameManager
+            GameManager.Coins += coinValue;
+
+            // Actualizar el texto de UI en GameManager
+            GameManager.UpdateCoinText();
 
             // Destruir la moneda al recogerla
             Destroy(gameObject);

@@ -12,8 +12,6 @@ public class SpawnerGalaxyShooter : MonoBehaviour
     public Transform rightPoint;
     public List<GameObject> enemyPrefabs;
     public GameObject boss;
-    public int score = 0;
-    public Text scoreText;
     public static SpawnerGalaxyShooter instance;
     int state = 1;
     int enemysForState = 4;
@@ -30,7 +28,7 @@ public class SpawnerGalaxyShooter : MonoBehaviour
 
     void Start()
     {
-        scoreText.text = "SCORE: " + score;
+
     }
 
     void Update()
@@ -67,14 +65,8 @@ public class SpawnerGalaxyShooter : MonoBehaviour
             {
                 state ++;
                 aux = 0;
-                scoreText.text = "FASE: " + state + " SCORE: " + score;
             }
             
         }
-    }
-    public void AddScore(int point)
-    {
-        score+=point;
-        scoreText.text = scoreText.text = "FASE: " + state + " SCORE: " + score;
     }
 }

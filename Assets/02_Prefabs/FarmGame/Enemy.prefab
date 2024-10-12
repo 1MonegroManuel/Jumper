@@ -199,4 +199,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 5
   speed: 1
-  damageToPlayer: 3
+  damageToPlayer: 5

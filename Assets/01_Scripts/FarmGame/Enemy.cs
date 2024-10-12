@@ -1,48 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour
 {
     public float life = 5f;           // Vida del enemigo
     public float speed = 2f;          // Velocidad de movimiento del enemigo
     private Transform player;         // Transform del jugador
-    private Rigidbody2D rb;           // Componente Rigidbody2D para controlar el movimiento
     public float damageToPlayer = 3f; // Daño que el enemigo causa al jugador
     private Spawn spawnController;    // Controlador de Spawn para informar destrucción
 
     void Start()
     {
+        // Encontrar al jugador por su tag
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
+        // Verificar que exista un jugador y perseguirlo
         if (player != null)
         {
             ChasePlayer();
         }
     }
 
+    // Método para que el enemigo persiga al jugador
     void ChasePlayer()
     {
-        Vector2 direction = (player.position - transform.position).normalized;
-        rb.velocity = direction * speed;
-        rb.rotation = 0;
+        // Obtener la dirección hacia el jugador
+        Vector3 direction = (player.position - transform.position).normalized;
+
+        // Mover al enemigo hacia el jugador usando Translate
+        transform.Translate(direction * speed * Time.deltaTime);
+
+        // Asegurarse de que la rotación del enemigo se mantenga fija
+        transform.rotation = Quaternion.identity;
     }
 
     // Método para detectar colisiones con triggers (jugador)
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            Player playerScript = collision.GetComponent<Player>();
-            if (playerScript != null)
-            {
-                playerScript.TakeDamage(damageToPlayer);
-            }
-            Destroy(gameObject);  // Destruye al enemigo tras hacer daño
+             GameManager.ReduceHealth((int)damageToPlayer);
         }
     }
 
@@ -52,7 +54,7 @@ public class Enemy : MonoBehaviour
         life -= dmg;
         if (life <= 0)
         {
-            DestroyEnemy();  // Destruye al enemigo si su vida llega a 0
+            DestroyEnemy();  // Destruir al enemigo si su vida llega a 0
         }
     }
 
@@ -61,12 +63,12 @@ public class Enemy : MonoBehaviour
     {
         if (spawnController != null)
         {
-            spawnController.EnemyDestroyed();  // Informa que el enemigo fue destruido
+            spawnController.EnemyDestroyed();  // Informar al Spawn que el enemigo fue destruido
         }
-        Destroy(gameObject);  // Destruye el enemigo
+        Destroy(gameObject);  // Destruir el objeto enemigo
     }
 
-    // Asigna el controlador de Spawn a este enemigo
+    // Asignar el controlador de Spawn a este enemigo
     public void SetSpawnController(Spawn spawn)
     {
         spawnController = spawn;

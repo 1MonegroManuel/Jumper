@@ -89,7 +89,6 @@ public class EnemyGalaxyShooter : MonoBehaviour
                 Instantiate(powerUpPrefabs[power], transform.position, transform.rotation);
             }
             Instantiate(explosionEffect, transform.position, transform.rotation);
-            SpawnerGalaxyShooter.instance.AddScore(scorePoints);
             Destroy(gameObject);
         }
     }
