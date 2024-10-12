@@ -55,12 +55,12 @@ public class PlayerMovement2D_AB : MonoBehaviour
         {
             rb.velocity = Vector2.up * jumpForce;
         }
+
     }
 
     // Método que mata al jugador
     public void Die()
     {
-        // Aquí puedes añadir efectos de muerte o sonidos si es necesario
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);  // Reiniciar la escena
     }
 
@@ -73,5 +73,16 @@ public class PlayerMovement2D_AB : MonoBehaviour
         Vector3 scale = bodyTransform.localScale;
         scale.x *= -1;
         bodyTransform.localScale = scale;
+    }
+
+    // Detectar colisión con la capa de la meta (GoalLayer)
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if ((goalLayer.value & (1 << collision.gameObject.layer)) > 0)
+        {
+            Debug.Log("Player touched the goal!");  // Agregar línea para depuración
+            string holi = "SampleScene";
+            SceneManager.LoadScene(holi);
+        }
     }
 }
