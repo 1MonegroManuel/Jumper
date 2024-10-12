@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BossGalaxyShooter : MonoBehaviour
@@ -67,6 +68,8 @@ public class BossGalaxyShooter : MonoBehaviour
         if (life <= 0)
         {
             Destroy(gameObject);
+            string holi = "Farm";
+            SceneManager.LoadScene(holi);
         }
     }
 
