@@ -172,11 +172,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-<<<<<<< Updated upstream
-  m_Offset: {x: -0.0034490824, y: 0.0038466454}
-=======
   m_Offset: {x: -0.0059365705, y: -0.0023720786}
->>>>>>> Stashed changes
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -187,11 +183,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-<<<<<<< Updated upstream
-  m_Size: {x: 0.25713134, y: 0.32458204}
-=======
   m_Size: {x: 0.21981908, y: 0.26239485}
->>>>>>> Stashed changes
   m_EdgeRadius: 0
 --- !u!114 &2715645628222458104
 MonoBehaviour:
@@ -206,9 +198,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 5
-<<<<<<< Updated upstream
-  speed: 2
-=======
   speed: 1
->>>>>>> Stashed changes
   damageToPlayer: 3
