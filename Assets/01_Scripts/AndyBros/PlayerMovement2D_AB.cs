@@ -81,7 +81,7 @@ public class PlayerMovement2D_AB : MonoBehaviour
         if ((goalLayer.value & (1 << collision.gameObject.layer)) > 0)
         {
             Debug.Log("Player touched the goal!");  // Agregar línea para depuración
-            string holi = "SampleScene";
+            string holi = "GalaxyShooter";
             SceneManager.LoadScene(holi);
         }
     }
