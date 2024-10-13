@@ -15,10 +15,14 @@ public class PlayerMovement2D_AB : MonoBehaviour
 
     public Transform bodyTransform;
     private bool isFacingRight = true;
+    public AudioClip deadPlayerSound;
+    public AudioClip jumpSound; // Clip de sonido para el salto
+    private AudioSource audioSource; // Componente para reproducir el sonido
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>(); // Obtiene el componente AudioSource
     }
 
     void Update()
@@ -46,12 +50,17 @@ public class PlayerMovement2D_AB : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.velocity = Vector2.up * jumpForce;
+            PlayJumpSound(); // Reproducir el sonido al saltar
         }
     }
 
     public void Die()
     {
-        GameManager.ReduceHealth(40); 
+        if(GameManager.PlayerHealth-40 <= 0)
+        {
+            PlayDeadPlayerSound();
+        }
+        GameManager.ReduceHealth(40);
     }
 
     void Flip()
@@ -70,7 +79,23 @@ public class PlayerMovement2D_AB : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("dead"))
         {
+            PlayDeadPlayerSound();
             GameManager.RestartGame();
+        }
+    }
+
+    void PlayJumpSound()
+    {
+        if (audioSource != null && jumpSound != null)
+        {
+            audioSource.PlayOneShot(jumpSound); // Reproduce el sonido de salto
+        }
+    }
+    void PlayDeadPlayerSound()
+    {
+        if (audioSource != null && deadPlayerSound != null)
+        {
+            audioSource.PlayOneShot(deadPlayerSound); // Reproduce el sonido de salto
         }
     }
 }
