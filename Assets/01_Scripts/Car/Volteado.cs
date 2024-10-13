@@ -6,6 +6,19 @@ public class Volteado : MonoBehaviour
     public float respawnYPosition = 0.35f;  // Coordenada Y donde debe reaparecer el auto
     public float damageAmount = 15f;  // Daño que tomará el jugador al voltearse
 
+    public AudioClip flipSound;  // Sonido de volteado
+    private AudioSource audioSource;  // Componente para reproducir sonido
+
+    void Start()
+    {
+        // Obtener el AudioSource del objeto del coche o agregar uno si no lo tiene
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         // Verificar si el objeto que tocó tiene el tag "Floor"
@@ -31,11 +44,27 @@ public class Volteado : MonoBehaviour
             {
                 Debug.LogWarning("El prefab del auto no tiene un Animator asignado.");
             }
+
+            // Reproducir el sonido de volteado
+            PlayFlipSound();
         }
     }
 
     public void TakeDamage(float dmg)
     {
-        GameManager.ReduceHealth((int)dmg); 
+        GameManager.ReduceHealth((int)dmg);
+    }
+
+    // Método para reproducir el sonido de volteado
+    void PlayFlipSound()
+    {
+        if (audioSource != null && flipSound != null)
+        {
+            audioSource.PlayOneShot(flipSound);
+        }
+        else
+        {
+            Debug.LogWarning("No se ha asignado un AudioClip para el sonido de volteado.");
+        }
     }
 }

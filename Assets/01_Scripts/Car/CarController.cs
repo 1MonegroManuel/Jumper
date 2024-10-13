@@ -13,9 +13,17 @@ public class CarController : MonoBehaviour
     private float controlChangeInterval = 5f;  // Intervalo para cambiar los controles
     private float timer = 0f;
 
+    // Sonidos
+    public AudioClip controlChangeSound;  // Sonido para cuando cambian las teclas
+    public AudioClip turnSound;  // Sonido para cuando el coche da la vuelta
+    private AudioSource audioSource;  // Componente de AudioSource
+
+    private bool movingForward = true;  // Estado para saber si está avanzando
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();  // Obtener el componente AudioSource
         AssignRandomControls();  // Asignar controles al inicio
     }
 
@@ -34,10 +42,13 @@ public class CarController : MonoBehaviour
         if (Input.GetKey(forwardKey))
         {
             rb.velocity = new Vector2(speed, rb.velocity.y);  // Mover hacia adelante
+
+
         }
         else if (Input.GetKey(backwardKey))
         {
             rb.velocity = new Vector2(-speed, rb.velocity.y);  // Mover hacia atrás
+
         }
         else
         {
@@ -60,9 +71,31 @@ public class CarController : MonoBehaviour
         int backwardIndex = Random.Range(0, availableKeys.Count);
         backwardKey = availableKeys[backwardIndex];
 
+        // Reproducir sonido de cambio de control
+        PlayControlChangeSound();
+
         // Mostrar las teclas asignadas en la consola para debug
         Debug.Log("Forward key: " + forwardKey + ", Backward key: " + backwardKey);
     }
+
+    // Reproducir sonido cuando cambian los controles
+    void PlayControlChangeSound()
+    {
+        if (audioSource != null && controlChangeSound != null)
+        {
+            audioSource.PlayOneShot(controlChangeSound);
+        }
+    }
+
+    // Reproducir sonido cuando el coche da la vuelta (cambia de dirección)
+    void PlayTurnSound()
+    {
+        if (audioSource != null && turnSound != null)
+        {
+            audioSource.PlayOneShot(turnSound);
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Goal"))
