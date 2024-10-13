@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12797f755350f5240bf57e45ac04a019, type: 3}
+  m_Name: "ALCOH\xD3LICO"
+  m_EditorClassIdentifier: 
+  sentences:
+  - text: " Estoy en un horrible viaje interdimensional en contra de mi voluntad
+      y lo \xFAnico que me gu\xEDa es un gato semi sarnoso que no para de juzgarme
+      de manera no muy heterosexual..."
+    speaker: {fileID: 11400000, guid: 3151d7f4127d95a4cbf2908e7da83b33, type: 2}
+    emotion: 
+  - text: . . .
+    speaker: {fileID: 11400000, guid: 3151d7f4127d95a4cbf2908e7da83b33, type: 2}
+    emotion: 
+  - text: "Es la \xFAltima maldita vez que salgo un un alcoh\xF3lico."
+    speaker: {fileID: 11400000, guid: dde3fa52179b99345a98fda5ec9ba245, type: 2}
+    emotion: molesta
+  - text: "ALCOH\xD3LICO"
+    speaker: {fileID: 0}
+    emotion: 
+  background: {fileID: 21300000, guid: bc4f3921df34ed744b721b29ab1802ff, type: 3}
+  nextScene: {fileID: 0}

@@ -9,6 +9,16 @@ public class ChooseLabelController : MonoBehaviour, IPointerClickHandler, IPoint
     private StoryScene scene;
     private TextMeshProUGUI textMesh;
     private ChooseController controller;
+    public CanvasGroup canvasGroup;
+    public void LimpiarCanvasGroup()
+    {
+        // Recorre cada hijo del CanvasGroup y destruye sus GameObjects
+        foreach (Transform child in canvasGroup.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
 
     void Awake()
     {
@@ -30,11 +40,14 @@ public class ChooseLabelController : MonoBehaviour, IPointerClickHandler, IPoint
         Vector3 position = textMesh.rectTransform.localPosition;
         position.y = y;
         textMesh.rectTransform.localPosition = position;
+
+        
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         controller.PerformChoose(scene);
+        LimpiarCanvasGroup();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -46,4 +59,5 @@ public class ChooseLabelController : MonoBehaviour, IPointerClickHandler, IPoint
     {
         textMesh.color = defaultColor;
     }
+
 }
