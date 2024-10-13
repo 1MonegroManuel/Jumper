@@ -23,7 +23,7 @@ public static class GameManager
     {
         PlayerHealth = 100; // Vida inicial
         Coins = 0;
-        Levels = new List<string> { "GalaxyShooter", "Farm", "Game" };
+        Levels = new List<string> { "GalaxyShooter", "Farm", "Game", "CarScene" };
 
     }
 
@@ -135,7 +135,7 @@ public static class GameManager
     {
         PlayerHealth = 100;
         Coins = 0;
-        Levels = new List<string> { "GalaxyShooter", "Farm", "Game" };
+        Levels = new List<string> { "GalaxyShooter", "Farm", "Game", "CarScene"};
         SceneManager.LoadScene("Tutorial");
     }
 
