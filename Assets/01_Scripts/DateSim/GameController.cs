@@ -6,8 +6,9 @@ public class GameController : MonoBehaviour
 {
     public GameScene currentScene;
     public BottomBarController bottomBar;
-    public BackgroundController backgroundController;
+    
     public ChooseController chooseController;
+    public SpriteSwitcher spriteSwitcher;
 
     private State state = State.IDLE;
 
@@ -22,7 +23,7 @@ public class GameController : MonoBehaviour
         {
             StoryScene storyScene = currentScene as StoryScene;
             bottomBar.PlayScene(storyScene);
-            backgroundController.SetImage(storyScene.background);
+            
         }
     }
 
@@ -38,6 +39,9 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
+                    // Cambiar el sprite de Tiffany según el diálogo actual
+                    var currentSentence = (currentScene as StoryScene).sentences[bottomBar.GetCurrentSentenceIndex()];
+                    CambiarSpriteTiffany(currentSentence);
                     bottomBar.PlayNextSentence();
                 }
             }
@@ -58,12 +62,16 @@ public class GameController : MonoBehaviour
         if (scene is StoryScene)
         {
             StoryScene storyScene = scene as StoryScene;
-            backgroundController.SwitchImage(storyScene.background);
+           
             yield return new WaitForSeconds(1f);
             bottomBar.ClearText();
             bottomBar.Show();
             yield return new WaitForSeconds(1f);
             bottomBar.PlayScene(storyScene);
+
+            // Cambiar el sprite según el diálogo actual de Tiffany
+            var currentSentence = storyScene.sentences[bottomBar.GetCurrentSentenceIndex()];
+            CambiarSpriteTiffany(currentSentence);
             state = State.IDLE;
         }
         else if (scene is ChooseScene)
@@ -72,4 +80,36 @@ public class GameController : MonoBehaviour
             chooseController.SetupChoose(scene as ChooseScene);
         }
     }
+
+    private void CambiarSpriteTiffany(StoryScene.Sentence sentence)
+    {
+        if (sentence.speaker.speakerName == "Tiffany")
+        {
+            // Cambiar el sprite basado en la emoción especificada en el campo "emotion"
+            switch (sentence.emotion.ToLower())
+            {
+                case "hablando":
+                    spriteSwitcher.CambiarSprite("hablando");
+                    break;
+                case "sonriendo":
+                    spriteSwitcher.CambiarSprite("sonriendo");
+                    break;
+                case "calmada":
+                    spriteSwitcher.CambiarSprite("calmada");
+                    break;
+                case "molesta":
+                    spriteSwitcher.CambiarSprite("molesta");
+                    break;
+                case "enojada":
+                    spriteSwitcher.CambiarSprite("enojada");
+                    break;
+                default:
+                    spriteSwitcher.CambiarSprite("calmada"); // Emoción por defecto
+                    break;
+            }
+        }
+    }
+
+
 }
+

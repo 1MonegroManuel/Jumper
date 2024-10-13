@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 628bf750956e8354a85e1032fd6b9a00, type: 3}
+  m_Name: 05
+  m_EditorClassIdentifier: 
+  labels:
+  - text: 'No... '
+    nextScene: {fileID: 11400000, guid: 0174409240d22e2439ab7846e22e57e5, type: 2}
+  - text: 'Dale. '
+    nextScene: {fileID: 11400000, guid: 6169f4c28c161f943bfe7e827117d63e, type: 2}

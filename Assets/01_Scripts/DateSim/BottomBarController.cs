@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class BottomBarController : MonoBehaviour
 {
-    public TextMeshProUGUI barText;
-    public TextMeshProUGUI personNameText;
+    
+    public Text barText;
+    public Text personNameText;
 
     private int sentenceIndex = -1;
     private StoryScene currentScene;
@@ -66,6 +68,10 @@ public class BottomBarController : MonoBehaviour
     public bool IsLastSentence()
     {
         return sentenceIndex + 1 == currentScene.sentences.Count;
+    }
+    public int GetCurrentSentenceIndex()
+    {
+        return sentenceIndex; // Devuelve el índice actual de la oración
     }
 
     private IEnumerator TypeText(string text)
