@@ -97,7 +97,7 @@ public class PlayerGalaxyShooter : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Goal"))
         {
-            GameManager.Portal();
+            SceneManager.LoadScene("MiniMarket");
         }
 
     }

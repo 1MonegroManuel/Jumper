@@ -79,7 +79,7 @@ public class PlayerMovement2D_AB : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Goal"))
         {
-            GameManager.Portal();
+            SceneManager.LoadScene("MiniMarket");
         }
         else if (collision.gameObject.CompareTag("dead"))
         {

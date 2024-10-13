@@ -1225,7 +1225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5111513461148373451, guid: 5c3b66e422bae03468338f152979d107, type: 3}
   spawnPoint: {fileID: 1660007552}
-  spawnRadius: 7
+  spawnRadius: 6.5
   numberOfEnemies: 30
   spawnInterval: 1
   Portalpoint: {fileID: 264648432}

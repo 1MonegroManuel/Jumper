@@ -9,10 +9,11 @@ public class MarkerController : MonoBehaviour
     // Función para "Cura Grande"
     public void HealLarge()
     {
-        if(GameManager.Coins >= 20)
+        if (GameManager.Coins >= 20)
         {
             GameManager.Coins -= 20;
-            GameManager.PlayerHealth = +25;
+            GameManager.PlayerHealth += 25;
+            GameManager.InitializeUI();
         }
     }
 
@@ -22,7 +23,8 @@ public class MarkerController : MonoBehaviour
         if (GameManager.Coins >= 10)
         {
             GameManager.Coins -= 10;
-            GameManager.PlayerHealth = +12;
+            GameManager.PlayerHealth += 12;
+            GameManager.InitializeUI();
         }
     }
 
@@ -31,7 +33,8 @@ public class MarkerController : MonoBehaviour
         if (GameManager.Coins >= 5)
         {
             GameManager.Coins -= 5;
-            GameManager.PlayerHealth = +5;
+            GameManager.PlayerHealth += 5;
+            GameManager.InitializeUI();
         }
     }
 
@@ -43,7 +46,7 @@ public class MarkerController : MonoBehaviour
             GameManager.Coins -= 5;
             Debug.Log("Propina aplicada");
         }
-        
+
     }
 
     // Función para "Continuar"
@@ -52,6 +55,7 @@ public class MarkerController : MonoBehaviour
         if (GameManager.PlayerHealth > 100)
         {
             GameManager.PlayerHealth = 100;
+            GameManager.InitializeUI();
         }
         GameManager.Portal();
     }

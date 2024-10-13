@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class CarController : MonoBehaviour
 {
@@ -66,7 +67,7 @@ public class CarController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Goal"))
         {
-            GameManager.Portal();
+            SceneManager.LoadScene("MiniMarket");
         }
         else if (collision.gameObject.CompareTag("dead"))
         {
