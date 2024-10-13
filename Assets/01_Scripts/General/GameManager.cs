@@ -13,6 +13,7 @@ public static class GameManager
     private static Text coinText;
     private static Text healthText;
     private static Text pauseText;
+    private static Text continueText;
 
     static GameManager()
     {
@@ -52,13 +53,12 @@ public static class GameManager
             coinText.color = Color.yellow;
             coinText.alignment = TextAnchor.MiddleRight;
 
-            // Añadir componente de sombra y borde (outline)
             AddShadowAndOutline(coinText);
 
             RectTransform rectTransform = coinText.GetComponent<RectTransform>();
-            rectTransform.sizeDelta = new Vector2(300, 60); // Más espacio para el texto
+            rectTransform.sizeDelta = new Vector2(300, 60);
             rectTransform.anchorMin = rectTransform.anchorMax = rectTransform.pivot = new Vector2(1, 1);
-            rectTransform.anchoredPosition = new Vector2(-30, -90); // Mover más hacia el borde
+            rectTransform.anchoredPosition = new Vector2(-30, -90);
         }
     }
 
@@ -77,13 +77,12 @@ public static class GameManager
             healthText.color = Color.red;
             healthText.alignment = TextAnchor.MiddleRight;
 
-            // Añadir sombra y borde (outline)
             AddShadowAndOutline(healthText);
 
             RectTransform rectTransform = healthText.GetComponent<RectTransform>();
             rectTransform.sizeDelta = new Vector2(300, 60);
             rectTransform.anchorMin = rectTransform.anchorMax = rectTransform.pivot = new Vector2(1, 1);
-            rectTransform.anchoredPosition = new Vector2(-30, -30); // Mejor posición
+            rectTransform.anchoredPosition = new Vector2(-30, -30);
         }
     }
 
@@ -98,15 +97,14 @@ public static class GameManager
 
             pauseText = textObj.AddComponent<Text>();
             pauseText.font = Resources.Load<Font>("MyCustomFont");
-            pauseText.fontSize = 48; // Texto más grande para pausa
+            pauseText.fontSize = 48;
             pauseText.color = Color.white;
             pauseText.alignment = TextAnchor.MiddleCenter;
 
-            // Añadir sombra y borde (outline)
             AddShadowAndOutline(pauseText);
 
             RectTransform rectTransform = pauseText.GetComponent<RectTransform>();
-            rectTransform.sizeDelta = new Vector2(400, 80); // Más grande y centrado
+            rectTransform.sizeDelta = new Vector2(400, 80);
             rectTransform.anchorMin = rectTransform.anchorMax = rectTransform.pivot = new Vector2(0.5f, 0.5f);
             rectTransform.anchoredPosition = new Vector2(0, 0);
         }
@@ -146,18 +144,15 @@ public static class GameManager
         return canvas;
     }
 
-    // Añadir componentes de sombra y borde al texto
     private static void AddShadowAndOutline(Text text)
     {
-        // Añadir sombra
         Shadow shadow = text.gameObject.AddComponent<Shadow>();
-        shadow.effectColor = new Color(0, 0, 0, 0.5f); // Sombra negra con transparencia
-        shadow.effectDistance = new Vector2(2, -2); // Dirección de la sombra
+        shadow.effectColor = new Color(0, 0, 0, 0.5f);
+        shadow.effectDistance = new Vector2(2, -2);
 
-        // Añadir borde (outline)
         Outline outline = text.gameObject.AddComponent<Outline>();
-        outline.effectColor = Color.black; // Borde negro
-        outline.effectDistance = new Vector2(2, -2); // Tamaño del borde
+        outline.effectColor = Color.black;
+        outline.effectDistance = new Vector2(2, -2);
     }
 
     public static void ReduceHealth(int damage)
@@ -196,13 +191,69 @@ public static class GameManager
 
     public static void Portal()
     {
-        if (!isPaused)
+        try
         {
-            System.Random rd = new System.Random();
-            int randomIndex = rd.Next(Levels.Count);
-            string selectedLevel = Levels[randomIndex];
-            Levels.RemoveAt(randomIndex);
-            SceneManager.LoadScene(selectedLevel);
+            if (!isPaused)
+            {
+                if (Levels.Count == 0)
+                {
+                    ShowContinueCanvas();
+                }
+                else
+                {
+                    System.Random rd = new System.Random();
+                    int randomIndex = rd.Next(Levels.Count);
+                    string selectedLevel = Levels[randomIndex];
+                    Levels.RemoveAt(randomIndex);
+                    SceneManager.LoadScene(selectedLevel);
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            ShowContinueCanvas();
         }
     }
+
+    public static void ShowContinueCanvas()
+    {
+        Canvas canvas = GameObject.FindObjectOfType<Canvas>() ?? CreateCanvas();
+
+        if (continueText == null)
+        {
+            // Crear un panel de fondo para el canvas y cambiar su color a plomo
+            GameObject panelObj = new GameObject("BackgroundPanel");
+            panelObj.transform.SetParent(canvas.transform, false);
+
+            Image panelImage = panelObj.AddComponent<Image>();
+            panelImage.color = new Color(0.5f, 0.5f, 0.5f, 1f); // Color plomo (gris)
+
+            RectTransform panelRect = panelObj.GetComponent<RectTransform>();
+            panelRect.anchorMin = new Vector2(0, 0);
+            panelRect.anchorMax = new Vector2(1, 1);
+            panelRect.offsetMin = Vector2.zero;  // Sin offsets, cubre toda la pantalla
+            panelRect.offsetMax = Vector2.zero;
+
+            // Crear el texto
+            GameObject textObj = new GameObject("ContinueText");
+            textObj.transform.SetParent(panelObj.transform, false);
+
+            continueText = textObj.AddComponent<Text>();
+            continueText.font = Resources.Load<Font>("MyCustomFont");
+            continueText.fontSize = 48;
+            continueText.color = Color.white;
+            continueText.alignment = TextAnchor.MiddleCenter;
+
+            AddShadowAndOutline(continueText);
+
+            RectTransform textRect = continueText.GetComponent<RectTransform>();
+            textRect.sizeDelta = new Vector2(400, 80);
+            textRect.anchorMin = textRect.anchorMax = textRect.pivot = new Vector2(0.5f, 0.5f);
+            textRect.anchoredPosition = new Vector2(0, 0);
+
+            continueText.text = "Continuaraaa...";
+        }
+    }
+
 }
