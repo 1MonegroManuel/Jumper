@@ -95,35 +95,6 @@ public class Player : MonoBehaviour
             audioSource.PlayOneShot(ShootSound); // Reproduce el sonido de salto
         }
     }
-    void Die()
-    {
-        Debug.Log("¡El jugador ha muerto!");
-        StartCoroutine(HandleDeath());
-    }
-
-    IEnumerator HandleDeath()
-    {
-        if (mainSpriteRenderer != null)
-        {
-            mainSpriteRenderer.enabled = false;
-        }
-        if (deathSpriteRenderer != null)
-        {
-            deathSpriteRenderer.enabled = true;
-        }
-        if (deathParticlesPrefab != null)
-        {
-            Instantiate(deathParticlesPrefab, transform.position, Quaternion.identity);
-        }
-        // Esperar por el tiempo especificado antes de reiniciar el nivel
-        yield return new WaitForSeconds(deathDelay);
-
-        // Reiniciar el nivel después del retraso
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
-        // Destruir el jugador después de reiniciar la escena
-        Destroy(gameObject);
-    }
 
     void Flip()
     {

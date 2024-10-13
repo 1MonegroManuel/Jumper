@@ -12,13 +12,13 @@ public class Enemy : MonoBehaviour
     private Spawn spawnController;    // Controlador de Spawn para informar destrucción
 
     public AudioClip deathSound;      // Clip de sonido para la muerte del enemigo
-    public AudioSource audioSource;  // Componente para reproducir el sonido
+    private AudioSource audioSource;  // Componente para reproducir el sonido
 
     void Start()
     {
         // Encontrar al jugador por su tag
         player = GameObject.FindGameObjectWithTag("Player").transform;
-
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
