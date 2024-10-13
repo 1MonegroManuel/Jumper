@@ -66,12 +66,11 @@ public class PlayerMovement2D_AB : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Goal"))
         {
-            Debug.Log("Player touched the goal!");
-            SceneManager.LoadScene("Farm");
+            GameManager.Portal();
         }
         else if (collision.gameObject.CompareTag("dead"))
         {
-            Die();
+            GameManager.RestartGame();
         }
     }
 }

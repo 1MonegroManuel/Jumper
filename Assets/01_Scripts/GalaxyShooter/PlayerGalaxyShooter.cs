@@ -8,13 +8,11 @@ public class PlayerGalaxyShooter : MonoBehaviour
     public float speed = 2f;
     public float ExtraSpeed = 0f;
     public float timeBtwShoot = 1.5f;
-    public int bullets = 5;
     public float extraDamage = 0f;
     public float damage= 5f;
     public bool critic = false;
     public float bulletSpeed= 10f;
     public float extraBulletSpeed = 0f;
-    int currentBullets;
     float timer = 0;
     float timer2 = 0;
     public bool shield;
@@ -25,14 +23,12 @@ public class PlayerGalaxyShooter : MonoBehaviour
     void Start()
     {
         Debug.Log("Inició el juego");
-        currentBullets = bullets;
     }
 
     void Update()
     {
         Debug.Log("Juego en progreso");
         Movement();
-        Reload();
         CheckIfShoot();
         Shoot();
         if (shield)
@@ -50,7 +46,7 @@ public class PlayerGalaxyShooter : MonoBehaviour
 
     void Shoot()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && canShoot && currentBullets > 0)
+        if (Input.GetMouseButtonDown(0) && canShoot)
         {
             BulletGalaxyShooter b = Instantiate(bulletPrefab, firePoint.position, transform.rotation);
             if (critic)
@@ -71,17 +67,10 @@ public class PlayerGalaxyShooter : MonoBehaviour
             }
             b.speed= bulletSpeed + extraBulletSpeed;
             canShoot = false;
-            currentBullets--;
+
         }
     }
 
-    void Reload()
-    {
-        if(currentBullets == 0 && Input.GetKeyDown(KeyCode.R))
-        {
-            currentBullets = bullets;
-        }
-    }
 
     public void TakeDamage(float dmg)
     {
@@ -108,8 +97,7 @@ public class PlayerGalaxyShooter : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Goal"))
         {
-            string holi = "Farm";
-            SceneManager.LoadScene(holi);
+            GameManager.Portal();
         }
 
     }

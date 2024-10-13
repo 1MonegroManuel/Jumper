@@ -7,7 +7,7 @@ public static class GameManager
 {
     public static int PlayerHealth { get; set; }
     public static int Coins { get; set; }
-    public static List<string> PlayerItems { get; private set; }
+    public static List<string> Levels { get; private set; }
 
     private static Text coinText;
     private static Text healthText;
@@ -23,7 +23,7 @@ public static class GameManager
     {
         PlayerHealth = 100; // Vida inicial
         Coins = 0;
-        PlayerItems = new List<string> { "GalaxyShooter", "Farm", "Game" };
+        Levels = new List<string> { "GalaxyShooter", "Farm", "Game" };
 
     }
 
@@ -38,14 +38,14 @@ public static class GameManager
 
     public static void AddItem(string item)
     {
-        PlayerItems.Add(item);
+        Levels.Add(item);
     }
 
     public static void ShowPlayerInfo()
     {
         Debug.Log("Player Health: " + PlayerHealth);
         Debug.Log("Coins: " + Coins);
-        Debug.Log("Player Items: " + string.Join(", ", PlayerItems));
+        Debug.Log("Player Items: " + string.Join(", ", Levels));
     }
 
     public static void CreateCoinTextUI()
@@ -131,11 +131,12 @@ public static class GameManager
     }
 
     // Reinicia el nivel cuando la vida del jugador llega a 0.
-    private static void RestartGame()
+    public static void RestartGame()
     {
         PlayerHealth = 100;
         Coins = 0;
-        SceneManager.LoadScene("Game");
+        Levels = new List<string> { "GalaxyShooter", "Farm", "Game" };
+        SceneManager.LoadScene("Tutorial");
     }
 
     // Llamado cuando la escena se carga para inicializar nuevamente la UI
@@ -143,5 +144,22 @@ public static class GameManager
     {
         //InitializeGame(); // Re-inicializar variables de juego
         InitializeUI();   // Crear y actualizar la UI
+    }
+    public static void Portal()
+    {
+        // Inicializamos el generador de números aleatorios
+        System.Random rd = new System.Random();
+
+        // Obtenemos un índice aleatorio basado en la cantidad de niveles en la lista
+        int randomIndex = rd.Next(Levels.Count);
+
+        // Seleccionamos el nivel de la lista usando el índice aleatorio
+        string selectedLevel = Levels[randomIndex];
+
+        // Eliminamos el nivel seleccionado de la lista para que no se repita
+        Levels.RemoveAt(randomIndex);
+
+        // Cargamos la escena correspondiente al nivel seleccionado
+        SceneManager.LoadScene(selectedLevel);
     }
 }

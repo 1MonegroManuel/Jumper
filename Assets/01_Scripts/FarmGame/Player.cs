@@ -124,4 +124,12 @@ public class Player : MonoBehaviour
             mainSpriteRenderer.transform.localScale = theScale;
         }
     }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Goal"))
+        {
+            GameManager.Portal();
+        }
+
+    }
 }
