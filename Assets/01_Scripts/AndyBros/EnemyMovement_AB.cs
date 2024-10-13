@@ -9,12 +9,14 @@ public class EnemyMovement_AB : MonoBehaviour
     public LayerMask wallLayer;
     private bool isActive = false;
     public List<SpriteRenderer> enemyRenderers = new List<SpriteRenderer>();
-
+    public AudioClip deadsound; // Sonido al morir el enemigo
+    private AudioSource audioSource;
     public float enemyHeight = 0.5f;  // Altura del enemigo
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
 
         // Obtener todos los SpriteRenderers de este objeto o hijos
         SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
@@ -74,6 +76,7 @@ public class EnemyMovement_AB : MonoBehaviour
                 // Si el jugador está cayendo y está por encima del enemigo, destruir el enemigo
                 if (playerIsFalling && playerAboveEnemy)
                 {
+                    PlayDeadSound();
                     Destroy(gameObject);  // Destruir al enemigo
                     playerRb.velocity = new Vector2(playerRb.velocity.x, 5f); // Rebote del jugador
                 }
@@ -83,6 +86,21 @@ public class EnemyMovement_AB : MonoBehaviour
                     collision.gameObject.GetComponent<PlayerMovement2D_AB>().Die();  // Método que mata al jugador
                 }
             }
+        }
+    }
+
+    // Método para reproducir el sonido antes de destruir el objeto
+    void PlayDeadSound()
+    {
+        if (deadsound != null)
+        {
+            // Crear un objeto temporal para reproducir el sonido
+            GameObject soundObject = new GameObject("EnemyDeathSound");
+            AudioSource tempAudioSource = soundObject.AddComponent<AudioSource>();
+            tempAudioSource.clip = deadsound;
+            tempAudioSource.time = 0.4f;
+            tempAudioSource.Play();
+            Destroy(soundObject, deadsound.length); // Destruir el objeto de sonido después de que termine el clip
         }
     }
 
