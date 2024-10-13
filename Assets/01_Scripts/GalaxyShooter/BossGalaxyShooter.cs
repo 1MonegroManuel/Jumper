@@ -26,6 +26,11 @@ public class BossGalaxyShooter : MonoBehaviour
     public GameObject explosionEffect;
     public List<GameObject> powerUpPrefabs;
 
+    // Sonidos
+    public AudioClip shootSound;     // Sonido para disparo
+    public AudioClip phaseChangeSound;  // Sonido para cambio de fase
+    private AudioSource audioSource;
+
     public enum BossPhase { Phase1, Phase2, Phase3, Phase4 };
     public BossPhase currentPhase = BossPhase.Phase1;
 
@@ -38,6 +43,13 @@ public class BossGalaxyShooter : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         target = player.transform;
         life = MaxLife;
+
+        // Obtener el componente AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("No se encontró AudioSource en el jefe.");
+        }
     }
 
     void Update()
@@ -98,17 +110,11 @@ public class BossGalaxyShooter : MonoBehaviour
         MoveOscillating();
         ShootStraight();
 
-        // Asegúrate de tener un componente SpriteRenderer en el GameObject
         SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
         if (spriteRenderer != null)
         {
-            // Cambia el color del sprite a blanco
             spriteRenderer.color = Color.white;
-        }
-        else
-        {
-            Debug.LogError("SpriteRenderer component not found on this GameObject.");
         }
     }
 
@@ -116,18 +122,12 @@ public class BossGalaxyShooter : MonoBehaviour
     {
         speed = 4f;
         MoveOscillating();
-        ShootSpread();  // Disparo en abanico
-        // Asegúrate de tener un componente SpriteRenderer en el GameObject
+        ShootSpread();
         SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
         if (spriteRenderer != null)
         {
-            // Cambia el color del sprite a blanco
             spriteRenderer.color = Color.yellow;
-        }
-        else
-        {
-            Debug.LogError("SpriteRenderer component not found on this GameObject.");
         }
     }
 
@@ -137,18 +137,12 @@ public class BossGalaxyShooter : MonoBehaviour
         ExtraDamage = 3;
         BulletSpeed = 10;
         MoveOscillating();
-        ShootTargeted();  // Dispara directamente al jugador
-        // Asegúrate de tener un componente SpriteRenderer en el GameObject
+        ShootTargeted();
         SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
         if (spriteRenderer != null)
         {
-            // Cambia el color del sprite a blanco
             spriteRenderer.color = Color.magenta;
-        }
-        else
-        {
-            Debug.LogError("SpriteRenderer component not found on this GameObject.");
         }
     }
 
@@ -162,28 +156,20 @@ public class BossGalaxyShooter : MonoBehaviour
         timeBtwShoot = 1f;
         MoveOscillating();
         ShootTargeted();
-        // Asegúrate de tener un componente SpriteRenderer en el GameObject
         SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
         if (spriteRenderer != null)
         {
-            // Cambia el color del sprite a blanco
             spriteRenderer.color = Color.red;
-        }
-        else
-        {
-            Debug.LogError("SpriteRenderer component not found on this GameObject.");
         }
     }
 
     void MoveOscillating()
     {
-        // Movimiento oscilante en el eje X
         oscillationTimer += Time.deltaTime * oscillationFrequency;
         float oscillation = Mathf.Sin(oscillationTimer) * oscillationAmplitude;
         Vector3 pos = transform.position;
         pos.x = oscillation;
-        //pos.y -= speed * Time.deltaTime;
         transform.position = pos;
     }
 
@@ -205,6 +191,9 @@ public class BossGalaxyShooter : MonoBehaviour
             b1.damage = damage * ExtraDamage;
             b2.damage = damage * ExtraDamage;
             b3.damage = damage * ExtraDamage;
+
+            // Reproducir sonido de disparo
+            PlayShootSound();
         }
     }
 
@@ -217,9 +206,9 @@ public class BossGalaxyShooter : MonoBehaviour
         else
         {
             timer = 0;
-            for (int i = -2; i <= 2; i++)  // Dispara en abanico
+            for (int i = -2; i <= 2; i++)
             {
-                Quaternion spreadRotation = Quaternion.Euler(0, 0, i * 10); // Ajusta el ángulo
+                Quaternion spreadRotation = Quaternion.Euler(0, 0, i * 10);
                 BulletGalaxyShooter b1 = Instantiate(bulletPrefab, firePoint1.position, transform.rotation * spreadRotation);
                 BulletGalaxyShooter b2 = Instantiate(bulletPrefab, firePoint2.position, transform.rotation * spreadRotation);
                 BulletGalaxyShooter b3 = Instantiate(bulletPrefab, firePoint3.position, transform.rotation * spreadRotation);
@@ -230,6 +219,9 @@ public class BossGalaxyShooter : MonoBehaviour
                 b2.damage = damage * ExtraDamage;
                 b3.damage = damage * ExtraDamage;
             }
+
+            // Reproducir sonido de disparo
+            PlayShootSound();
         }
     }
 
@@ -252,13 +244,36 @@ public class BossGalaxyShooter : MonoBehaviour
             b1.damage = damage * ExtraDamage;
             b2.damage = damage * ExtraDamage;
             b3.damage = damage * ExtraDamage;
+
+            // Reproducir sonido de disparo
+            PlayShootSound();
         }
     }
 
     void ChangePhaseEffect()
     {
-        // Efecto visual cuando el jefe cambia de fase
         Instantiate(explosionEffect, transform.position, transform.rotation);
+
+        // Reproducir sonido de cambio de fase
+        PlayPhaseChangeSound();
+    }
+
+    // Reproducir sonido de disparo
+    void PlayShootSound()
+    {
+        if (audioSource != null && shootSound != null)
+        {
+            audioSource.PlayOneShot(shootSound);
+        }
+    }
+
+    // Reproducir sonido de cambio de fase
+    void PlayPhaseChangeSound()
+    {
+        if (audioSource != null && phaseChangeSound != null)
+        {
+            audioSource.PlayOneShot(phaseChangeSound);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)

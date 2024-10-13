@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
     public GameScene currentScene;
     public BottomBarController bottomBar;
-    
     public ChooseController chooseController;
     public SpriteSwitcher spriteSwitcher;
+
+    // Sonido de final
+    public AudioClip finalSound;
+    private AudioSource audioSource;
 
     private State state = State.IDLE;
 
@@ -23,7 +27,13 @@ public class GameController : MonoBehaviour
         {
             StoryScene storyScene = currentScene as StoryScene;
             bottomBar.PlayScene(storyScene);
-            
+        }
+
+        // Obtener el componente AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
         }
     }
 
@@ -35,7 +45,22 @@ public class GameController : MonoBehaviour
             {
                 if (bottomBar.IsLastSentence())
                 {
-                    PlayScene((currentScene as StoryScene).nextScene);
+                    // Verificar si es la última escena (es decir, no hay una escena siguiente)
+                    if ((currentScene as StoryScene).nextScene == null)
+                    {
+                        GameManager.ReduceHealth(25);
+                        GameManager.Coins += 15;
+                        GameManager.UpdateCoinText();
+                        GameManager.UpdateHealthText();
+
+                        // Reproducir el sonido final
+                        PlayFinalSound();
+                    }
+                    else
+                    {
+                        // Cargar la siguiente escena
+                        PlayScene((currentScene as StoryScene).nextScene);
+                    }
                 }
                 else
                 {
@@ -62,14 +87,12 @@ public class GameController : MonoBehaviour
         if (scene is StoryScene)
         {
             StoryScene storyScene = scene as StoryScene;
-           
             yield return new WaitForSeconds(1f);
             bottomBar.ClearText();
             bottomBar.Show();
             yield return new WaitForSeconds(1f);
             bottomBar.PlayScene(storyScene);
 
-            // Cambiar el sprite según el diálogo actual de Tiffany
             var currentSentence = storyScene.sentences[bottomBar.GetCurrentSentenceIndex()];
             CambiarSpriteTiffany(currentSentence);
             state = State.IDLE;
@@ -85,7 +108,6 @@ public class GameController : MonoBehaviour
     {
         if (sentence.speaker.speakerName == "Tiffany")
         {
-            // Cambiar el sprite basado en la emoción especificada en el campo "emotion"
             switch (sentence.emotion.ToLower())
             {
                 case "hablando":
@@ -104,12 +126,31 @@ public class GameController : MonoBehaviour
                     spriteSwitcher.CambiarSprite("enojada");
                     break;
                 default:
-                    spriteSwitcher.CambiarSprite("calmada"); // Emoción por defecto
+                    spriteSwitcher.CambiarSprite("calmada");
                     break;
             }
         }
     }
 
+    // Método para reproducir el sonido final
+    private void PlayFinalSound()
+    {
+        if (audioSource != null && finalSound != null)
+        {
+            audioSource.PlayOneShot(finalSound);
+            StartCoroutine(WaitForSoundToEnd());  // Esperar a que el sonido termine antes de cargar la escena
+        }
+        else
+        {
+            // Si no hay sonido, cargar la escena inmediatamente
+            SceneManager.LoadScene("MiniMarket");
+        }
+    }
 
+    private IEnumerator WaitForSoundToEnd()
+    {
+        // Esperar la duración del sonido antes de cambiar de escena
+        yield return new WaitForSeconds(finalSound.length);
+        SceneManager.LoadScene("MiniMarket");
+    }
 }
-

@@ -9,11 +9,7 @@ public class MarkerController : MonoBehaviour
     public AudioClip tipSound;       // Clip de sonido para la propina
     public AudioSource audioSource;  // Componente para reproducir el sonido, asignado desde el Inspector
 
-    void Start()
-    {
-        GameManager.Coins = 100;
-        // Aquí no necesitas obtener el AudioSource desde código si lo asignas manualmente en el Inspector.
-    }
+
 
     // Función para reproducir el sonido de la moneda
     void PlayCoinSound()

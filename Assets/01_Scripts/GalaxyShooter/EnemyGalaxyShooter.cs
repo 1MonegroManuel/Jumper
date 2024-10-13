@@ -82,6 +82,11 @@ public class EnemyGalaxyShooter : MonoBehaviour
         life -= dmg;
         if (life <= 0)
         {
+            if (Random.Range(0f, 1f) <= 0.75f)
+            {
+                GameManager.Coins += 4;
+                GameManager.UpdateCoinText();
+            }
             Vector3 v = gameObject.transform.position;
             if(Random.Range(0,100) <= dropChance)
             {

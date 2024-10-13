@@ -75,6 +75,11 @@ public class Enemy : MonoBehaviour
     void DestroyEnemy()
     {
         PlayDeadSound();
+        if (Random.Range(0f, 1f) <= 0.25f)
+        {
+            GameManager.Coins += 2;
+            GameManager.UpdateCoinText();
+        }
         if (spawnController != null)
         {
             spawnController.EnemyDestroyed();  // Informar al Spawn que el enemigo fue destruido
