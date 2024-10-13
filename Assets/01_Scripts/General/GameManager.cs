@@ -9,8 +9,10 @@ public static class GameManager
     public static int Coins { get; set; }
     public static List<string> Levels { get; private set; }
 
+    private static bool isPaused = false; // Nueva variable para controlar la pausa
     private static Text coinText;
     private static Text healthText;
+    private static Text pauseText; // Texto para mostrar el estado de pausa
 
     static GameManager()
     {
@@ -18,22 +20,21 @@ public static class GameManager
         SceneManager.sceneLoaded += OnSceneLoaded; // Registrar evento para cada carga de escena
     }
 
-    // Método para inicializar el estado del juego (variables)
     public static void InitializeGame()
     {
-        PlayerHealth = 100; // Vida inicial
+        PlayerHealth = 100;
         Coins = 0;
         Levels = new List<string> { "GalaxyShooter", "Farm", "Game", "CarScene" };
-
     }
 
-    // Método para crear la UI al cargar la escena
     public static void InitializeUI()
     {
         CreateCoinTextUI();
         CreateHealthTextUI();
+        CreatePauseTextUI(); // Crear el texto de pausa
         UpdateCoinText();
         UpdateHealthText();
+        UpdatePauseText(); // Actualizar el texto de pausa
     }
 
     public static void AddItem(string item)
@@ -92,6 +93,28 @@ public static class GameManager
         }
     }
 
+    public static void CreatePauseTextUI()
+    {
+        Canvas canvas = GameObject.FindObjectOfType<Canvas>() ?? CreateCanvas();
+
+        if (pauseText == null)
+        {
+            GameObject textObj = new GameObject("PauseText");
+            textObj.transform.SetParent(canvas.transform);
+
+            pauseText = textObj.AddComponent<Text>();
+            pauseText.font = Resources.Load<Font>("MyCustomFont");
+            pauseText.fontSize = 36;
+            pauseText.color = Color.white;
+            pauseText.alignment = TextAnchor.MiddleCenter;
+
+            RectTransform rectTransform = pauseText.GetComponent<RectTransform>();
+            rectTransform.sizeDelta = new Vector2(300, 50);
+            rectTransform.anchorMin = rectTransform.anchorMax = rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            rectTransform.anchoredPosition = new Vector2(0, 0); // Centrado en la pantalla
+        }
+    }
+
     public static void UpdateCoinText()
     {
         if (coinText != null)
@@ -108,6 +131,14 @@ public static class GameManager
         }
     }
 
+    public static void UpdatePauseText()
+    {
+        if (pauseText != null)
+        {
+            pauseText.text = isPaused ? "Game Paused" : "";
+        }
+    }
+
     private static Canvas CreateCanvas()
     {
         GameObject canvasObj = new GameObject("GameCanvas");
@@ -118,48 +149,49 @@ public static class GameManager
         return canvas;
     }
 
-    // Reduce la vida del jugador y actualiza la UI. Si llega a 0, reinicia la escena.
     public static void ReduceHealth(int damage)
     {
-        PlayerHealth -= damage;
-        UpdateHealthText();
-
-        if (PlayerHealth <= 0)
+        if (!isPaused)
         {
-            RestartGame();
+            PlayerHealth -= damage;
+            UpdateHealthText();
+
+            if (PlayerHealth <= 0)
+            {
+                RestartGame();
+            }
         }
     }
 
-    // Reinicia el nivel cuando la vida del jugador llega a 0.
     public static void RestartGame()
     {
         PlayerHealth = 100;
         Coins = 0;
-        Levels = new List<string> { "GalaxyShooter", "Farm", "Game", "CarScene"};
+        Levels = new List<string> { "GalaxyShooter", "Farm", "Game", "CarScene" };
         SceneManager.LoadScene("Tutorial");
     }
 
-    // Llamado cuando la escena se carga para inicializar nuevamente la UI
     private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        //InitializeGame(); // Re-inicializar variables de juego
-        InitializeUI();   // Crear y actualizar la UI
+        InitializeUI();
     }
+
+    public static void TogglePause()
+    {
+        isPaused = !isPaused; // Cambia el estado de pausa
+        UpdatePauseText(); // Actualiza el texto de pausa
+        Time.timeScale = isPaused ? 0 : 1; // Pausa o reanuda el tiempo del juego
+    }
+
     public static void Portal()
     {
-        // Inicializamos el generador de números aleatorios
-        System.Random rd = new System.Random();
-
-        // Obtenemos un índice aleatorio basado en la cantidad de niveles en la lista
-        int randomIndex = rd.Next(Levels.Count);
-
-        // Seleccionamos el nivel de la lista usando el índice aleatorio
-        string selectedLevel = Levels[randomIndex];
-
-        // Eliminamos el nivel seleccionado de la lista para que no se repita
-        Levels.RemoveAt(randomIndex);
-
-        // Cargamos la escena correspondiente al nivel seleccionado
-        SceneManager.LoadScene(selectedLevel);
+        if (!isPaused)
+        {
+            System.Random rd = new System.Random();
+            int randomIndex = rd.Next(Levels.Count);
+            string selectedLevel = Levels[randomIndex];
+            Levels.RemoveAt(randomIndex);
+            SceneManager.LoadScene(selectedLevel);
+        }
     }
 }
