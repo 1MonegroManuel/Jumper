@@ -15,7 +15,12 @@ public class Spawn : MonoBehaviour
     private int enemiesAlive = 0;     // Cantidad de enemigos vivos
     public GameObject Porta;          // Prefab del portal
     private bool portalInstantiated = false;  // Controla si el portal ya fue instanciado
-
+    public AudioClip deathSound;      // Clip de sonido para la muerte del enemigo
+    private AudioSource audioSource;  // Componente para reproducir el sonido
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     void Update()
     {
         // Generar enemigos hasta alcanzar el número total especificado
@@ -38,7 +43,13 @@ public class Spawn : MonoBehaviour
             portalInstantiated = true;  // Asegura que el portal solo se instancie una vez
         }
     }
-
+    void PlayDeadSound()
+    {
+        if (audioSource != null && deathSound != null)
+        {
+            audioSource.PlayOneShot(deathSound);
+        }
+    }
     void SpawnEnemy()
     {
         // Calcula una posición aleatoria dentro del radio de generación
@@ -55,6 +66,7 @@ public class Spawn : MonoBehaviour
     // Método que será llamado por los enemigos cuando mueran
     public void EnemyDestroyed()
     {
+        PlayDeadSound();
         enemiesAlive--;  // Decrementa el número de enemigos vivos
         Debug.Log("Enemigo destruido. Enemigos vivos: " + enemiesAlive);
     }

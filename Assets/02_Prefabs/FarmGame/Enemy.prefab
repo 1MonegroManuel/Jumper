@@ -200,3 +200,5 @@ MonoBehaviour:
   life: 5
   speed: 1
   damageToPlayer: 5
+  deathSound: {fileID: 8300000, guid: 76d46b8832fe8274aa73bf19a7a5a278, type: 3}
+  audioSource: {fileID: 0}

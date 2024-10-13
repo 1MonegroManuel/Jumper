@@ -21,9 +21,12 @@ public class Player : MonoBehaviour
     private float shootTimer = 0.5f;
     private bool isFacingRight = true; // Para controlar la dirección del sprite
 
+    public AudioClip ShootSound; // Clip de sonido para el salto
+    private AudioSource audioSource; // Componente para reproducir el sonido
+
     void Start()
     {
-
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -62,6 +65,7 @@ public class Player : MonoBehaviour
         if (shootTimer >= timeBtwShoot && Input.GetMouseButtonDown(0))
         {
             Shoot();
+            PlayShootSound();
             shootTimer = 0f;
         }
     }
@@ -80,10 +84,17 @@ public class Player : MonoBehaviour
             if (bulletRb != null)
             {
                 bulletRb.velocity = direction * bulletSpeed;
+                
             }
         }
     }
-
+    void PlayShootSound()
+    {
+        if (audioSource != null )
+        {
+            audioSource.PlayOneShot(ShootSound); // Reproduce el sonido de salto
+        }
+    }
     void Die()
     {
         Debug.Log("¡El jugador ha muerto!");

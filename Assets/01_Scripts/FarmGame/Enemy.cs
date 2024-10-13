@@ -11,10 +11,14 @@ public class Enemy : MonoBehaviour
     public float damageToPlayer = 3f; // Daño que el enemigo causa al jugador
     private Spawn spawnController;    // Controlador de Spawn para informar destrucción
 
+    public AudioClip deathSound;      // Clip de sonido para la muerte del enemigo
+    public AudioSource audioSource;  // Componente para reproducir el sonido
+
     void Start()
     {
         // Encontrar al jugador por su tag
         player = GameObject.FindGameObjectWithTag("Player").transform;
+
     }
 
     void Update()
@@ -39,12 +43,12 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.identity;
     }
 
-    // Método para detectar colisiones con triggers (jugador)
+    // Método para detectar colisiones con triggers o colisiones normales
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-             GameManager.ReduceHealth((int)damageToPlayer);
+            GameManager.ReduceHealth((int)damageToPlayer);
         }
     }
 
@@ -58,9 +62,19 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    // Método para reproducir el sonido de muerte
+    void PlayDeadSound()
+    {
+        if (audioSource != null && deathSound != null)
+        {
+            audioSource.PlayOneShot(deathSound);
+        }
+    }
+
     // Método para destruir al enemigo e informar al Spawn
     void DestroyEnemy()
     {
+        PlayDeadSound();
         if (spawnController != null)
         {
             spawnController.EnemyDestroyed();  // Informar al Spawn que el enemigo fue destruido
