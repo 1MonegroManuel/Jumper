@@ -81,6 +81,7 @@ public class MarkerController : MonoBehaviour
             GameManager.Coins -= 5;
             Debug.Log("Propina aplicada");
             PlayTipSound(); // Reproducir el sonido de la propina
+            GameManager.InitializeUI();
         }
     }
 
