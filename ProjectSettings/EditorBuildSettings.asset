@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/00_Scenes/DateGame/DateGame.unity
     guid: 28bf2b0bb46e9f2489953aec4d65229a
+  - enabled: 1
+    path: Assets/00_Scenes/CarDodge/MainScene.unity
+    guid: 1c6ea103a7238a742b552cc7d18be58e
   m_configObjects: {}

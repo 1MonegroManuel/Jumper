@@ -25,7 +25,7 @@ public static class GameManager
     {
         PlayerHealth = 100;
         Coins = 0;
-        Levels = new List<string> { "GalaxyShooter", "Farm", "Game", "CarScene", "DateGame" };
+        Levels = new List<string> { "GalaxyShooter", "Farm", "Game", "CarScene", "DateGame", "CarDodge"};
     }
 
     public static void InitializeUI()
@@ -173,7 +173,7 @@ public static class GameManager
     {
         PlayerHealth = 100;
         Coins = 0;
-        Levels = new List<string> { "GalaxyShooter", "Farm", "Game", "CarScene", "DateGame" };
+        Levels = new List<string> { "GalaxyShooter", "Farm", "Game", "CarScene", "DateGame", "CarDodge" };
         SceneManager.LoadScene("Tutorial");
     }
 

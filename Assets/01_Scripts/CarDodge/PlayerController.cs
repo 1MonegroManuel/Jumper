@@ -2,33 +2,24 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 5f;
-    public float laneWidth = 2f;
-
-    private int currentLane = 1; // Comienza en el segundo carril (index 1)
+    public float speed = 5f; // Velocidad de movimiento
+    public Vector2 movementLimits; // Límites para el movimiento (X, Y)
 
     void Update()
     {
-        // Movimiento entre carriles
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && currentLane > 0)
-        {
-            currentLane--;
-            MoveToLane();
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) && currentLane < 3)
-        {
-            currentLane++;
-            MoveToLane();
-        }
-
-        // Movimiento hacia adelante y atrás
+        // Obtener entrada del jugador en los ejes horizontal y vertical
+        float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        transform.Translate(Vector3.up * vertical * speed * Time.deltaTime);
-    }
 
-    void MoveToLane()
-    {
-        Vector3 targetPosition = new Vector3(currentLane * laneWidth - laneWidth * 1.5f, transform.position.y, transform.position.z);
-        transform.position = targetPosition;
+        // Calcular el desplazamiento del jugador
+        Vector3 movement = new Vector3(horizontal, vertical, 0) * speed * Time.deltaTime;
+
+        // Aplicar el movimiento
+        transform.Translate(movement);
+
+        // Restringir el movimiento dentro de los límites definidos
+        float clampedX = Mathf.Clamp(transform.position.x, -movementLimits.x, movementLimits.x);
+        float clampedY = Mathf.Clamp(transform.position.y, -movementLimits.y, movementLimits.y);
+        transform.position = new Vector3(clampedX, clampedY, transform.position.z);
     }
 }
