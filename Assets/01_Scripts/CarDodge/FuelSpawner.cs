@@ -1,24 +1,24 @@
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class FuelSpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab; // Prefab del enemigo
+    public GameObject fuelPrefab; // Prefab del combustible
     public Transform[] spawnPoints; // Array de puntos de spawn
     public float spawnInterval = 1.5f; // Intervalo entre cada spawn
 
     void Start()
     {
-        // Iniciar la generación de enemigos repetidamente
-        InvokeRepeating("SpawnEnemy", 1f, spawnInterval);
+        // Iniciar la generación de combustible repetidamente
+        InvokeRepeating("SpawnFuel", 1f, spawnInterval);
     }
 
-    void SpawnEnemy()
+    void SpawnFuel()
     {
         // Escoger un punto de spawn aleatorio
         int randomIndex = Random.Range(0, spawnPoints.Length);
         Transform spawnPoint = spawnPoints[randomIndex];
 
-        // Generar el enemigo
-        Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+        // Generar el combustible
+        Instantiate(fuelPrefab, spawnPoint.position, Quaternion.identity);
     }
 }

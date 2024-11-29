@@ -15,6 +15,12 @@ public static class GameManager
     private static Text pauseText;
     private static Text continueText;
 
+
+    public static float Fuel { get; private set; } = 100f; // Combustible inicial
+    public static float LevelProgress { get; private set; } = 0f; // Progreso del nivel
+    public static float LevelDuration { get; set; } = 150f; // Duración en segundos
+    public static bool IsLevelCompleted => LevelProgress >= LevelDuration; // Nivel completado
+
     static GameManager()
     {
         InitializeGame();
@@ -255,5 +261,10 @@ public static class GameManager
             continueText.text = "Continuaraaa...";
         }
     }
-
+    public static void AddCoin()
+    {
+        Coins++;
+        UpdateCoinText(); // Actualizar la UI global de monedas
+        Debug.Log("Monedas recogidas: " + Coins);
+    }
 }

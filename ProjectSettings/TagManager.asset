@@ -10,6 +10,8 @@ TagManager:
   - Floor
   - Boss
   - dead
+  - Coin
+  - Fuel
   layers:
   - Default
   - TransparentFX
