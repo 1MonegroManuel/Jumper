@@ -4,6 +4,8 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 5f; // Velocidad del jugador
     public Vector2 movementLimits; // Límites de movimiento
+    public float tiltAngle = 15f; // Ángulo de inclinación máxima al girar
+    public float rotationSpeed = 5f; // Velocidad de rotación para suavizar el movimiento
 
     private GameUIControllerNew levelUI; // Controlador de la UI
 
@@ -26,6 +28,19 @@ public class PlayerController : MonoBehaviour
         float clampedX = Mathf.Clamp(transform.position.x, -movementLimits.x, movementLimits.x);
         float clampedY = Mathf.Clamp(transform.position.y, -movementLimits.y, movementLimits.y);
         transform.position = new Vector3(clampedX, clampedY, transform.position.z);
+
+        // Rotación basada en dirección
+        ApplyTilt(horizontal);
+    }
+
+    void ApplyTilt(float horizontalInput)
+    {
+        // Calcula el ángulo de inclinación basado en la dirección horizontal
+        float targetTilt = -horizontalInput * tiltAngle; // Negativo para girar correctamente
+        Quaternion targetRotation = Quaternion.Euler(0, 0, targetTilt);
+
+        // Suaviza la rotación hacia el ángulo deseado
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
