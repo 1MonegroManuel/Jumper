@@ -4,80 +4,99 @@ using UnityEngine.UI;
 
 public class GameUIControllerNew : MonoBehaviour
 {
-    // Referencias públicas para los elementos de UI
-    public TextMeshProUGUI scoreText;  // Texto para los puntos
-    public Slider fuelSlider;          // Slider para el combustible
-    public Slider progressBar;         // Slider para el progreso del nivel
+    public TextMeshProUGUI scoreText;
+    public Slider fuelSlider;
+    public Slider progressBar;
 
-    // Variables del nivel
-    private float fuel = 100f;          // Combustible inicial
-    private float levelProgress = 0f;  // Progreso inicial del nivel
-    public float levelDuration = 150f; // Duración del nivel (2.5 minutos)
-    private int score = 0;             // Puntuación inicial
+    private float fuel = 100f;
+    private float levelProgress = 0f;
+    public float levelDuration = 100f;
+    private int score = 0;
+
+    private EnemySpawner enemySpawner;
+    private int difficultyStage = 0;
 
     void Start()
     {
+        enemySpawner = FindObjectOfType<EnemySpawner>();
         UpdateUI();
     }
 
     void Update()
     {
-        // Reducir el combustible automáticamente
-        fuel -= (100f / 30f) * Time.deltaTime; // Baja de 100 a 0 en 30 segundos
+        // Combustible y progreso
+        fuel -= (100f / 30f) * Time.deltaTime;
         fuel = Mathf.Clamp(fuel, 0, 100);
-
-        // Incrementar el progreso del nivel automáticamente
         levelProgress += Time.deltaTime;
         levelProgress = Mathf.Clamp(levelProgress, 0, levelDuration);
-
-        // Actualizar la interfaz gráfica
         UpdateUI();
 
-        // Comprobar si el combustible se ha agotado
         if (fuel <= 0f)
         {
             Debug.Log("Game Over: Sin combustible");
-            GameManager.RestartGame(); // Reiniciar juego desde el GameManager
+            GameManager.RestartGame();
         }
 
-        // Comprobar si el nivel ha terminado
         if (levelProgress >= levelDuration)
         {
             Debug.Log("Nivel completado");
-            GameManager.Portal(); // Cambiar al siguiente nivel
+            GameManager.Portal();
         }
+
+        HandleDifficultyIncrease();
     }
 
-    /// <summary>
-    /// Actualiza los elementos visuales de la interfaz del juego.
-    /// </summary>
     void UpdateUI()
     {
         if (scoreText != null)
-            scoreText.text = "Score: " + score.ToString(); // Actualiza la puntuación
+            scoreText.text = "Score: " + score;
 
         if (fuelSlider != null)
-            fuelSlider.value = fuel; // Actualiza la barra de combustible
+            fuelSlider.value = fuel;
 
         if (progressBar != null)
-            progressBar.value = (levelProgress / levelDuration) * 100f; // Actualiza el progreso del nivel
+            progressBar.value = (levelProgress / levelDuration) * 100f;
     }
 
-    /// <summary>
-    /// Incrementa la puntuación del jugador.
-    /// </summary>
     public void AddScore(int points)
     {
         score += points;
         UpdateUI();
     }
 
-    /// <summary>
-    /// Ajusta el combustible del jugador.
-    /// </summary>
-    /// <param name="amount">Cantidad a añadir o restar al combustible.</param>
     public void UpdateFuel(float amount)
     {
-        fuel = Mathf.Clamp(fuel + amount, 0, 100); // Asegura que el combustible esté entre 0 y 100
+        fuel = Mathf.Clamp(fuel + amount, 0, 100);
+    }
+
+    private void HandleDifficultyIncrease()
+    {
+        float progressPercentage = levelProgress / levelDuration;
+
+        if (difficultyStage == 0 && progressPercentage >= 0.25f)
+        {
+            IncreaseDifficulty(0.3f); // Primer aumento
+            difficultyStage = 1;
+        }
+        else if (difficultyStage == 1 && progressPercentage >= 0.5f)
+        {
+            IncreaseDifficulty(0.4f); // Segundo aumento
+            difficultyStage = 2;
+        }
+        else if (difficultyStage == 2 && progressPercentage >= 0.75f)
+        {
+            IncreaseDifficulty(0.5f); // Tercer aumento
+            difficultyStage = 3;
+        }
+    }
+
+    private void IncreaseDifficulty(float speedIncrease)
+    {
+        if (enemySpawner != null)
+        {
+            enemySpawner.IncreaseDifficulty();
+        }
+        EnemyCar.IncreaseSpeedMultiplier(speedIncrease);
+        Debug.Log($"Dificultad aumentada. Incremento de velocidad: {speedIncrease}");
     }
 }
