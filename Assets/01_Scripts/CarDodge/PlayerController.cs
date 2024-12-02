@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            GameManager.ReduceHealth(30); // Lógica global
+            GameManager.ReduceHealth(10); // Lógica global
             Destroy(collision.gameObject);
         }
         else if (collision.CompareTag("Coin"))
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.CompareTag("Fuel"))
         {
-            levelUI.UpdateFuel(35); // Incrementar combustible en el nivel actual
+            levelUI.UpdateFuel(38); // Incrementar combustible en el nivel actual
             Destroy(collision.gameObject);
         }
     }
